@@ -17,6 +17,9 @@ function App() {
         </div>
         <div>
           <h1>Get started</h1>
+          <h1 className="text-5xl font-extrabold text-blue-600 bg-yellow-300 p-10">
+            Működik a Tailwind!
+          </h1>
           <p>
             Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
           </p>
