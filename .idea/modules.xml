@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/nye-filmtar-beadando.iml" filepath="$PROJECT_DIR$/nye-filmtar-beadando.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/nye-filmtar.iml" filepath="$PROJECT_DIR$/.idea/nye-filmtar.iml" />
     </modules>
   </component>
 </project>
