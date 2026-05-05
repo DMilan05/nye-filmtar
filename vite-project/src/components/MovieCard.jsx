@@ -45,7 +45,9 @@ export default function MovieCard({ movie, isFavoriteView, onRemove }) {
             movieId: targetId,
             title: movie.title,
             poster_path: movie.poster_path,
-            vote_average: movie.vote_average || 0
+            vote_average: movie.vote_average || 0,
+
+            release_date: movie.release_date || ''
           })
         });
 

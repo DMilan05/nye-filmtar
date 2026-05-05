@@ -14,7 +14,7 @@ router.get('/', verifyToken, async (req, res) => {
 
 router.post('/', verifyToken, async (req, res) => {
     try {
-        const { movieId, title, poster_path, vote_average } = req.body;
+        const { movieId, title, poster_path, vote_average, release_date } = req.body;
 
         const existingFavorite = await Favorite.findOne({ user: req.user.id, movieId: movieId });
         if (existingFavorite) {
@@ -26,7 +26,8 @@ router.post('/', verifyToken, async (req, res) => {
             movieId,
             title,
             poster_path,
-            vote_average
+            vote_average,
+            release_date
         });
 
         const savedFavorite = await newFavorite.save();
@@ -40,7 +41,6 @@ router.delete('/:movieId', verifyToken, async (req, res) => {
     try {
         const deletedFavorite = await Favorite.findOneAndDelete({
             user: req.user.id,
-            // ITT A JAVÍTÁS: Számmá alakítjuk a movieId-t, mert az URL-ből szövegként érkezik
             movieId: Number(req.params.movieId)
         });
 

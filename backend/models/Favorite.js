@@ -21,6 +21,9 @@ const favoriteSchema = new mongoose.Schema({
     },
     vote_average: {
         type: Number
+    },
+    release_date: {
+        type: String
     }
 }, { timestamps: true });
 
