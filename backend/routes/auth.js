@@ -66,6 +66,7 @@ router.post('/auth/login', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
 router.get('/user', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
@@ -75,43 +76,5 @@ router.get('/user', verifyToken, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
-
-router.post('/favorites', verifyToken, async (req, res) => {
-    console.log(req.body)
-    try {
-        const { movieId } = req.body;
-        if (!movieId) {
-            return res.status(400).json({ message: 'Movie ID is required' });
-        }
-        const user = await User.findById(req.user.id);
-        if (user.favorites.includes(movieId.toString())) {
-            return res.status(400).json({ message: 'Movie is already in favorites' });
-        }
-        user.favorites.push(movieId.toString());
-        await user.save();
-        res.json({ message: 'Movie added to favorites', favorites: user.favorites });
-
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
-
-router.delete('/favorites/:movieId', verifyToken, async (req, res) => {
-    try {
-        const movieId = req.params.movieId;
-        const user = await User.findById(req.user.id);
-        if (!user.favorites.includes(movieId)) {
-            return res.status(400).json({ message: 'Movie is not in favorites' });
-        }
-        user.favorites = user.favorites.filter(id => id.toString() !== movieId.toString());
-        await user.save();
-        res.json({ message: 'Movie removed from favorites', favorites: user.favorites });
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
-
 
 module.exports = router;

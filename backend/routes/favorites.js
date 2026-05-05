@@ -40,7 +40,8 @@ router.delete('/:movieId', verifyToken, async (req, res) => {
     try {
         const deletedFavorite = await Favorite.findOneAndDelete({
             user: req.user.id,
-            movieId: req.params.movieId
+            // ITT A JAVÍTÁS: Számmá alakítjuk a movieId-t, mert az URL-ből szövegként érkezik
+            movieId: Number(req.params.movieId)
         });
 
         if (!deletedFavorite) {
