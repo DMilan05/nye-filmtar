@@ -5,7 +5,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const verifyToken = require('../middleware/verifyToken');
 
-router.post('/register', async (req, res) => {
+router.post('/auth/register', async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -31,7 +31,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
