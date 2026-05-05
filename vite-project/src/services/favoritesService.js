@@ -11,7 +11,7 @@ const getAuthHeaders = () => {
 };
 
 export const addToFavorites = async (movieData) => {
-  const response = await fetch(`${API_URL}/add`, {
+  const response = await fetch(`${API_URL}`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(movieData),

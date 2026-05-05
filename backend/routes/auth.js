@@ -77,6 +77,7 @@ router.get('/user', verifyToken, async (req, res) => {
 });
 
 router.post('/favorites', verifyToken, async (req, res) => {
+    console.log(req.body)
     try {
         const { movieId } = req.body;
         if (!movieId) {
@@ -111,4 +112,6 @@ router.delete('/favorites/:movieId', verifyToken, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
+
 module.exports = router;
