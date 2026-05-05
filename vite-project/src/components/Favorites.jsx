@@ -16,7 +16,6 @@ export default function Favorites() {
       }
 
       try {
-
         const response = await fetch('http://localhost:5000/api/favorites', {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -36,6 +35,10 @@ export default function Favorites() {
 
     fetchFavorites();
   }, [navigate]);
+
+  const handleRemoveMovie = (deletedId) => {
+    setFavorites(favorites.filter(m => m.movieId !== deletedId));
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white"> 
@@ -59,7 +62,12 @@ export default function Favorites() {
         ) : favorites.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {favorites.map((movie) => (
-              <MovieCard key={movie._id} movie={movie} /> 
+              <MovieCard 
+                key={movie._id} 
+                movie={movie} 
+                isFavoriteView={true}
+                onRemove={handleRemoveMovie}
+              /> 
             ))}
           </div>
         ) : (

@@ -21,7 +21,7 @@ export const loginUser = async (email, password) => {
   if (!response.ok) throw new Error(data.message || 'Hiba a bejelentkezés során!');
   
   if (data.token) {
-    localStorage.setItem('token', data.token); // Eltároljuk a tokent a későbbi hívásokhoz
+    localStorage.setItem('token', data.token);
   }
   return data;
 };
