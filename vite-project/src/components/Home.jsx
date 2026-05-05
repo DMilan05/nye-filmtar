@@ -6,10 +6,39 @@ export default function Home() {
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]); 
   const [searchTerm, setSearchTerm] = useState('');
+  const [favoriteIds, setFavoriteIds] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    const fetchUserFavorites = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await fetch('http://localhost:5000/api/favorites', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setFavoriteIds(data.map(fav => fav.movieId));
+        }
+      } catch (error) {
+        console.error("Hiba a kedvencek lekérésekor:", error);
+      }
+    };
+
+    fetchUserFavorites();
+  }, []);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const url = searchTerm 
+      const url = searchTerm
         ? `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&language=hu-HU`
         : 'https://api.themoviedb.org/3/movie/popular?language=hu-HU';
 
@@ -17,11 +46,11 @@ export default function Home() {
         const response = await fetch(url, {
           headers: {
             accept: 'application/json',
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZWE0NDQwYjEzN2JhYzhmYWUwOWFjZGMxZDM1YjZkYiIsIm5iZiI6MTc3NzUyODU3Ni4wOTUsInN1YiI6IjY5ZjJlZjAwODBkOGYwMmE4Mzg0MmU2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.c_PbTnWIHp9IB8AKDjzANdHJdZUqMkuj7xzIjwy-MSE` 
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZWE0NDQwYjEzN2JhYzhmYWUwOWFjZGMxZDM1YjZkYiIsIm5iZiI6MTc3NzUyODU3Ni4wOTUsInN1YiI6IjY5ZjJlZjAwODBkOGYwMmE4Mzg0MmU2MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.c_PbTnWIHp9IB8AKDjzANdHJdZUqMkuj7xzIjwy-MSE`
           }
         });
         const data = await response.json();
-        setMovies(data.results || []); 
+        setMovies(data.results || []);
       } catch (error) {
         console.error("Hiba a filmek betöltésekor:", error);
       }
@@ -68,11 +97,15 @@ export default function Home() {
         <h2 className="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">
           {searchTerm ? `Találatok a következőre: "${searchTerm}"` : 'Népszerű filmek'}
         </h2>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {movies.length > 0 ? (
             movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                isAlreadyFavorite={favoriteIds.includes(movie.id)}
+              />
             ))
           ) : (
             <p className="col-span-full text-center text-gray-500 mt-10">Nincs a keresésnek megfelelő film...</p>
