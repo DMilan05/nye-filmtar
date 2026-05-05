@@ -69,7 +69,7 @@ export default function MovieCard({ movie, isFavoriteView, onRemove }) {
     <div className="flex flex-col overflow-hidden bg-gray-800 border border-gray-700 shadow-lg rounded-xl">
       <img src={imageUrl} alt={movie.title} className="object-cover w-full h-72 bg-gray-700" />
       <div className="flex flex-col p-4 flex-grow">
-        <h3 className="mb-1 text-lg font-bold text-white truncate" title={movie.title}>
+        <h3 className="mb-1 text-lg font-bold text-white" title={movie.title}>
           {movie.title}
         </h3>
         <p className="mb-4 text-sm text-gray-400">{releaseYear}</p>
